@@ -1,0 +1,233 @@
+<!doctype html>
+<html lang="ko">
+  <head>
+    <meta
+      charset="UTF-8"
+      name="viewport"
+      content="width=device-width, height=device-height, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"
+    />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+    <title>테일즈위버 피처폰 복원판</title>
+    <meta name="description" content="테일즈위버 피처폰판을 브라우저에서 실행하기 위한 WIPI 보존용 플레이어입니다. 게임 파일은 사용자의 브라우저에만 저장됩니다." />
+    <meta name="keywords" content="wie, WIPI, J2ME, 피처폰, 피처폰 앱, 에뮬레이터, 모바일 앱, 추억의 앱, 휴대폰 에뮬레이터" />
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="테일즈위버 피처폰 복원판" />
+    <meta property="og:description" content="테일즈위버 피처폰판을 브라우저에서 실행하는 WIPI 보존용 플레이어." />
+    
+    <meta property="og:locale" content="ko_KR" />
+    <meta name="twitter:card" content="summary" />
+    <link rel="icon" type="image/png" href="assets/img/favicon.png" />
+    <link rel="stylesheet" href="assets/css/style.b4393e00.css" />
+    <script src="assets/js/index.ff4f1d9c.js" defer="defer"></script>
+  </head>
+  <body>
+    <div id="library-view" class="library-view">
+      <header class="library-header">
+        <div class="brand-block">
+          <img class="brand-icon" src="assets/img/favicon.png" alt="" width="42" height="42" />
+          <strong class="brand-name">TalesWeaver</strong>
+          <h1>피처폰 복원판</h1>
+        </div>
+        <div class="library-menu-wrap">
+          <button id="library-menu-toggle" class="icon-button" type="button" title="메뉴" aria-label="메뉴" aria-expanded="false">
+            <i data-lucide="ellipsis-vertical"></i>
+          </button>
+          <div id="library-menu" class="library-menu" role="menu">
+            <button id="menu-add-app" type="button" role="menuitem">
+              <i data-lucide="plus"></i>
+              <span>게임 파일 추가</span>
+            </button>
+            <button id="menu-manage-apps" type="button" role="menuitem">
+              <i data-lucide="trash-2"></i>
+              <span id="manage-apps-label">앱 삭제</span>
+            </button>
+            <button id="menu-settings" type="button" role="menuitem">
+              <i data-lucide="settings"></i>
+              <span>설정</span>
+            </button>
+            <button id="menu-help" type="button" role="menuitem">
+              <i data-lucide="circle-help"></i>
+              <span>조작 도움말</span>
+            </button>
+            <a href="https://github.com/dlunch/wie" target="_blank" rel="noopener noreferrer" role="menuitem">
+              <img src="https://cdn.simpleicons.org/github/0f172a" alt="" width="18" height="18" />
+              <span>GitHub</span>
+            </a>
+          </div>
+        </div>
+      </header>
+
+      <main class="library-main">
+        <div id="library-pages" class="library-pages" aria-live="polite">
+          <p class="library-loading">라이브러리를 불러오는 중입니다.</p>
+        </div>
+        <div id="page-indicators" class="page-indicators" aria-label="라이브러리 페이지"></div>
+      </main>
+
+    </div>
+
+    <section id="player-view" class="player-view" hidden>
+      <header class="player-toolbar">
+        <button id="back-to-library" class="icon-button" type="button" title="라이브러리" aria-label="라이브러리로 돌아가기">
+          <i data-lucide="arrow-left"></i>
+        </button>
+        <strong id="player-title" class="player-title"></strong>
+        <button id="save-manager" class="icon-button" type="button" title="세이브" aria-label="세이브 관리">
+          <i data-lucide="save"></i>
+        </button>
+        <button id="app-settings" class="icon-button" type="button" title="설정" aria-label="설정">
+          <i data-lucide="settings"></i>
+        </button>
+      </header>
+
+      <main class="player-main">
+        <div class="canvas-wrapper">
+          <canvas id="canvas" width="240" height="320"></canvas>
+        </div>
+
+        <div class="floating-controls" aria-label="게임 조작 패널">
+          <div id="virtual-stick" class="virtual-stick" aria-label="이동 조이스틱">
+            <div class="virtual-stick-ring"></div>
+            <div id="virtual-stick-knob" class="virtual-stick-knob"></div>
+          </div>
+          <div class="floating-keypad" aria-label="번호 키패드">
+            <button data-key="1">1</button><button data-key="2">2</button><button data-key="3">3</button>
+            <button data-key="4">4</button><button data-key="5">5</button><button data-key="6">6</button>
+            <button data-key="7">7</button><button data-key="8">8</button><button data-key="9">9</button>
+            <button data-key="*">*</button><button data-key="0">0</button><button data-key="#">#</button>
+            <button class="keypad-wide" data-key="CLR">CLR</button><button class="keypad-wide" data-key="OK">OK</button>
+          </div>
+        </div>
+      </main>
+    </section>
+
+    <dialog id="settings-dialog" class="app-dialog">
+      <form method="dialog">
+        <header class="dialog-header">
+          <h2>설정</h2>
+          <button class="icon-button dialog-close" value="cancel" title="닫기" aria-label="닫기">
+            <i data-lucide="x"></i>
+          </button>
+        </header>
+        <div class="settings-fields">
+          <label>
+            <i data-lucide="music-2"></i>
+            <span>MIDI</span>
+            <input type="range" id="volume-midi" min="0" max="100" value="50" />
+          </label>
+          <label>
+            <i data-lucide="volume-2"></i>
+            <span>효과음</span>
+            <input type="range" id="volume-pcm" min="0" max="100" value="50" />
+          </label>
+        </div>
+      </form>
+    </dialog>
+
+    <dialog id="welcome-dialog" class="app-dialog">
+      <form method="dialog">
+        <header class="dialog-header">
+          <h2>테일즈위버 피처폰 복원판</h2>
+        </header>
+        <p>이스핀편·막시민편 LGT WIPI/C 파일을 브라우저에서 직접 실행합니다. 업로드한 게임 ZIP과 세이브 데이터는 이 브라우저의 로컬 저장소에 남습니다.</p>
+        <ol class="welcome-steps">
+          <li><strong>게임 파일 추가</strong><span>LGT판 테일즈위버 ZIP 파일을 선택합니다.</span></li>
+          <li><strong>실행</strong><span>추가된 테일즈위버 아이콘을 누릅니다.</span></li>
+          <li><strong>조작</strong><span>PC는 방향키/Space, 모바일은 화면 키패드를 사용합니다.</span></li>
+        </ol>
+        <footer class="dialog-actions welcome-actions">
+          <button class="secondary-command" value="cancel">닫기</button>
+          <button id="dismiss-welcome" class="primary-command" type="button">닫고 더 이상 보지 않기</button>
+        </footer>
+      </form>
+    </dialog>
+
+    <dialog id="import-dialog" class="app-dialog">
+      <form method="dialog">
+        <header class="dialog-header">
+          <h2>게임 파일 추가</h2>
+          <button class="icon-button dialog-close" value="cancel" title="닫기" aria-label="닫기">
+            <i data-lucide="x"></i>
+          </button>
+        </header>
+        <p>테일즈위버 이스핀편 또는 막시민편 LGT ZIP 파일을 선택하세요. 파일은 서버로 전송되지 않습니다.</p>
+        <button id="choose-archive" class="primary-command" type="button" autofocus>
+          <i data-lucide="upload"></i>
+          <span>파일 선택</span>
+        </button>
+        <p id="import-status" class="dialog-status" role="status" aria-live="polite"></p>
+      </form>
+    </dialog>
+    <input id="archive-input" type="file" accept=".zip,.jar,application/zip,application/java-archive" multiple hidden />
+
+    <dialog id="delete-dialog" class="app-dialog">
+      <form method="dialog">
+        <header class="dialog-header">
+          <h2>앱 삭제</h2>
+          <button class="icon-button dialog-close" value="cancel" title="닫기" aria-label="닫기">
+            <i data-lucide="x"></i>
+          </button>
+        </header>
+        <p><strong id="delete-app-title"></strong>을(를) 라이브러리에서 삭제합니다.</p>
+        <footer class="dialog-actions">
+          <button class="secondary-command" value="cancel">취소</button>
+          <button id="confirm-delete" class="danger-command" type="button">삭제</button>
+        </footer>
+      </form>
+    </dialog>
+
+    <dialog id="help-dialog" class="app-dialog help-dialog">
+      <form method="dialog">
+        <header class="dialog-header">
+          <h2>조작 도움말</h2>
+          <button class="icon-button dialog-close" value="cancel" title="닫기" aria-label="닫기">
+            <i data-lucide="x"></i>
+          </button>
+        </header>
+        <table>
+          <tbody>
+            <tr><td><kbd>1</kbd> <kbd>2</kbd> <kbd>3</kbd></td><td>숫자 1, 2, 3</td></tr>
+            <tr><td><kbd>Q</kbd> <kbd>W</kbd> <kbd>E</kbd></td><td>숫자 4, 5, 6</td></tr>
+            <tr><td><kbd>A</kbd> <kbd>S</kbd> <kbd>D</kbd></td><td>숫자 7, 8, 9</td></tr>
+            <tr><td><kbd>Z</kbd> <kbd>X</kbd> <kbd>C</kbd></td><td>*, 0, #</td></tr>
+            <tr><td>방향키</td><td>이동</td></tr>
+            <tr><td><kbd>Space</kbd></td><td>OK</td></tr>
+            <tr><td><kbd>Backspace</kbd></td><td>CLR</td></tr>
+          </tbody>
+        </table>
+        <footer class="dialog-actions">
+          <label><input id="hide-help" type="checkbox" /> 다시 보지 않기</label>
+          <button class="secondary-command" value="cancel">닫기</button>
+        </footer>
+      </form>
+    </dialog>
+
+
+    <dialog id="save-dialog" class="app-dialog save-dialog">
+      <form method="dialog">
+        <header class="dialog-header">
+          <h2>세이브</h2>
+          <button class="icon-button dialog-close" value="cancel" title="닫기" aria-label="닫기"><i data-lucide="x"></i></button>
+        </header>
+        <p class="save-note"><strong>게임 내 저장은 자동으로 이 브라우저에 유지됩니다.</strong><br />아래 기능은 세이브 데이터를 파일로 백업하거나 다른 기기에서 복원할 때 사용합니다.</p>
+        <div class="save-actions">
+          <button id="export-save" class="primary-command" type="button"><i data-lucide="download"></i><span>세이브 백업</span></button>
+          <button id="import-save" class="secondary-command" type="button"><i data-lucide="upload"></i><span>세이브 불러오기</span></button>
+        </div>
+        <input id="save-file-input" type="file" accept="application/json,.json,.wiesave" hidden />
+        <p id="save-status" class="dialog-status" role="status" aria-live="polite"></p>
+      </form>
+    </dialog>
+
+    <dialog id="unlock-dialog" class="app-dialog unlock-dialog">
+      <form id="unlock-form" method="dialog">
+        <header class="dialog-header"><h2>테스트 플레이 잠금</h2></header>
+        <p>테스트 사용자용 페이지입니다. 비밀번호를 입력하면 게임 데이터를 복호화해 이 브라우저에서 실행합니다.</p>
+        <input id="unlock-password" class="unlock-password" type="password" autocomplete="current-password" placeholder="비밀번호" required />
+        <p id="unlock-status" class="dialog-status" role="status" aria-live="polite"></p>
+        <footer class="dialog-actions"><button id="unlock-submit" class="primary-command" type="submit">게임 열기</button></footer>
+      </form>
+    </dialog>
+  </body>
+</html>

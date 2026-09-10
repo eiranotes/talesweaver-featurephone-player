@@ -1,0 +1,27 @@
+{
+  "encrypted": true,
+  "salt": "T0/TDvyYDkZyt/nB9EQ+jQ==",
+  "iterations": 250000,
+  "games": [
+    {
+      "filename": "talesweaver-ispin-lgt.zip",
+      "url": "./roms/talesweaver-ispin-lgt.zip.enc",
+      "iv": "l4aanVkMEMw9w4MI"
+    },
+    {
+      "filename": "talesweaver-maximin-lgt.zip",
+      "url": "./roms/talesweaver-maximin-lgt.zip.enc",
+      "iv": "09MwK8VfJO6fPSyK"
+    },
+    {
+      "filename": "minigame-heaven-1-ktf.zip",
+      "url": "./roms/minigame-heaven-1-ktf.zip.enc",
+      "iv": "WFCKLxLoH0nI213C"
+    },
+    {
+      "filename": "minigame-heaven-2-ktf.zip",
+      "url": "./roms/minigame-heaven-2-ktf.zip.enc",
+      "iv": "5Fybz7ofHYgWHNL4"
+    }
+  ]
+}
